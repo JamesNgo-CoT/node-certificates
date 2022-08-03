@@ -27,8 +27,8 @@ function generateCsr(privateKey, publicKey) {
 	const csr = forge.pki.createCertificationRequest();
 	csr.publicKey = pubKey;
 	csr.setSubject([
-		{ shortName: 'CN', value: 'WSS-PROD-PAYMENT-2022-02-03' },
-		{ shortName: 'OU', value: 'WSS-PROD-PAYMENT' },
+		{ shortName: 'CN', value: 'WSS-NonPROD-PAYMENT-2022-02-03' },
+		{ shortName: 'OU', value: 'WSS-NonPROD-PAYMENT' },
 		{ shortName: 'O', value: 'City of Toronto' },
 		{ shortName: 'L', value: 'Toronto' },
 		{ shortName: 'ST', value: 'Ontario' },
