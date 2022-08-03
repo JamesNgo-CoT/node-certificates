@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 function generateKeyPair() {
 	const crypto = require('crypto');
 	return crypto.generateKeyPairSync('rsa', {
@@ -25,29 +27,12 @@ function generateCsr(privateKey, publicKey) {
 	const csr = forge.pki.createCertificationRequest();
 	csr.publicKey = pubKey;
 	csr.setSubject([
-		{ name: 'commonName', value: 'example.org' },
-		{ name: 'countryName', value: 'US' },
-		{ shortName: 'ST', value: 'Virginia' },
-		{ name: 'localityName', value: 'Blacksburg' },
-		{ name: 'organizationName', value: 'Test' },
-		{ shortName: 'OU', value: 'Test' }
-	]);
-	csr.setAttributes([
-		{ name: 'challengePassword', value: 'password' },
-		{ name: 'unstructuredName', value: 'My Company, Inc.' },
-		{
-			name: 'extensionRequest',
-			extensions: [
-				{
-					name: 'subjectAltName',
-					altNames: [
-						{ type: 2, value: 'localhost' },
-						{ type: 2, value: '127.0.0.1' },
-						{ type: 2, value: 'www.domain.net' }
-					]
-				}
-			]
-		}
+		{ shortName: 'CN', value: 'WSS-PROD-PAYMENT-2022-02-03' },
+		{ shortName: 'OU', value: 'WSS-PROD-PAYMENT' },
+		{ shortName: 'O', value: 'City of Toronto' },
+		{ shortName: 'L', value: 'Toronto' },
+		{ shortName: 'ST', value: 'Ontario' },
+		{ shortName: 'C', value: 'CA' }
 	]);
 	csr.sign(prKey);
 
@@ -55,8 +40,13 @@ function generateCsr(privateKey, publicKey) {
 }
 
 const { privateKey, publicKey } = generateKeyPair();
+
 console.log('PRIVATE KEY', privateKey);
+fs.writeFileSync('private.ppk', privateKey, 'utf-8');
+
 console.log('PUBLIC KEY', publicKey);
+fs.writeFileSync('public.pub', publicKey, 'utf-8');
 
 const csr = generateCsr(privateKey, publicKey);
 console.log('CSR', csr);
+fs.writeFileSync('csr.pem', publicKey, 'utf-8');
